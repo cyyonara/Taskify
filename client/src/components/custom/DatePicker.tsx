@@ -1,3 +1,4 @@
+import React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,13 +9,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 interface DatePickerProps {
   date: Date | undefined;
   setTaskDate: (date: Date | undefined) => void;
+  isSubmitting: boolean;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ date, setTaskDate }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ date, setTaskDate, isSubmitting }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          disabled={isSubmitting}
           variant="outline"
           className={cn(
             "justify-start text-left w-full font-normal",

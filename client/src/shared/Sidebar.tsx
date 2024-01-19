@@ -66,7 +66,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="border-border border hidden rounded md:flex flex-col min-w-[350px]">
+    <div className="border-border border hidden rounded-lg md:flex flex-col min-w-[340px] overflow-hidden">
       <div className="flex items-center p-6 gap-x-4">
         <img src={user?.avatar} className="w-[90px] h-[90px] rounded-full" />
         <h3 className="max-w-[220px] text-ellipsis overflow-hidden whitespace-nowrap">

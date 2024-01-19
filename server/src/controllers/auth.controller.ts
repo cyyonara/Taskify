@@ -1,11 +1,11 @@
 import handler from "express-async-handler";
 import User from "../models/user.model";
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 import { LoginData } from "../types/t.auth";
 import { fromZodError } from "zod-validation-error";
 import { signUpSchema } from "../utils/validation";
-import bcrypt from "bcrypt";
 
 // @POST - public - /api/auth/sign-up
 export const signUp = handler(async (req: Request, res: Response): Promise<void> => {
@@ -33,7 +33,7 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
       const errorMessage = fromZodError(error).toString();
       res.status(400).json({ message: errorMessage });
     } else {
-      res.status(500);
+      res.status(res.statusCode === 200 ? 500 : res.statusCode);
       throw new Error(error.message);
     }
   }
@@ -42,6 +42,8 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
 // @POST - public - /api/auth/login
 export const login = handler(async (req: Request, res: Response): Promise<void> => {
   const { username, password }: LoginData = req.body;
+
+  console.log(res.statusCode);
   const user = await User.findOne({ username });
 
   if (!user) {
@@ -49,7 +51,7 @@ export const login = handler(async (req: Request, res: Response): Promise<void> 
     throw new Error("Invalid username or password");
   }
 
-  const isPasswordMatch = bcrypt.compareSync(password, user.password);
+  const isPasswordMatch: boolean = bcrypt.compareSync(password, user.password);
 
   if (!isPasswordMatch) {
     res.status(400);

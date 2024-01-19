@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
     <div className="h-screen flex p-1 sm:p-4 gap-x-4">
       <Sidebar />
       <AnimatePresence>{showAddTaskDialog && <AddTaskDialog />}</AnimatePresence>
-      <div className="flex-1 p-4 sm:p-6 md:border rounded">
+      <div className="flex-1 flex-col p-4 sm:p-6 md:border rounded-lg">
         {showLogoutDialog && (
           <LogoutDialog
             handleLogout={handleLogout}
@@ -78,7 +78,7 @@ const Dashboard: React.FC = () => {
                 <DropdownMenuContent className="mr-5 sm:mr-9 mt-1 dropdown md:hidden">
                   <DropdownMenuLabel>Menu</DropdownMenuLabel>
                   {navLinks.map(({ label, path, end, icon }) => (
-                    <DropdownMenuItem>
+                    <DropdownMenuItem key={label}>
                       <NavLink end={end} to={path} className="flex items-center gap-x-2">
                         {icon}
                         <span>{label}</span>

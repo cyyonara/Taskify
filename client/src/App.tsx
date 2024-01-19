@@ -4,6 +4,7 @@ import SignUp from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import Home from "@/pages/Home";
 import Protected from "./shared/Protected";
+import Completed from "./pages/Completed";
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
       <Route element={<Protected />}>
         <Route path={"/dashboard/*"} element={<Dashboard />}>
           <Route index element={<Home />} />
+          <Route path={"completed"} element={<Completed />} />
           <Route path={"important"} element={<h1>Important</h1>} />
         </Route>
       </Route>

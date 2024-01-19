@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "*" }));
 
 app.use("/api/auth", authRouter);
-app.use("/api/task", taskRouter);
+app.use("/api/tasks", taskRouter);
 
 app.use(notFound);
 app.use(errorHandler);

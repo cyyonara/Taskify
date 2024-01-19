@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { Task as ITask } from "../types/t.task";
 import Task from "../models/task.model";
 
+// @POST - private - /api/taskss
 export const addTask = handler(async (req: IRequest, res: Response): Promise<void> => {
   try {
     const { date, ...rest }: ITask = req.body;
@@ -28,4 +29,10 @@ export const addTask = handler(async (req: IRequest, res: Response): Promise<voi
       throw new Error(error.message);
     }
   }
+});
+
+// @GET - private - /api/tasks
+export const getTasks = handler(async (req: IRequest, res: Response): Promise<void> => {
+  const tasks = await Task.find({ author: req.user?._id }).sort({ date: -1 });
+  res.status(200).json(tasks);
 });

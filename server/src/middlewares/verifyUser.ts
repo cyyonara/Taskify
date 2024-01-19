@@ -28,15 +28,21 @@ export const verifyUser = async (
       req.user = user;
       next();
     } catch (error: any) {
-      let errorMessage;
+      let errorMessage: string;
+      let statusCode: number = 401;
+
       if (error instanceof JsonWebTokenError) {
         errorMessage = "Invalid Token";
       } else if (error instanceof TokenExpiredError) {
         errorMessage = "Your token is expired. Please try to login again";
       } else {
         errorMessage = error.message;
+        statusCode = 500;
       }
-      res.status(401).clearCookie("taskify_access_token").json({ message: errorMessage });
+      res
+        .status(statusCode)
+        .clearCookie("taskify_access_token")
+        .json({ message: errorMessage });
     }
   } else {
     res.status(401).json({ message: "Token is missing" });
