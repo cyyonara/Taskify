@@ -1,5 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { IRequestError } from "@/types/t.requestError";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const logout = async (): Promise<void> => {
@@ -7,5 +8,11 @@ const logout = async (): Promise<void> => {
 };
 
 export const useLogout = (): UseMutationResult<void, IRequestError, null> => {
-  return useMutation<void, IRequestError, null>({ mutationFn: logout });
+  const queryClient = useQueryClient();
+  return useMutation<void, IRequestError, null>({
+    mutationFn: logout,
+    onSuccess: () => {
+      queryClient.clear();
+    },
+  });
 };

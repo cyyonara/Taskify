@@ -1,20 +1,20 @@
 import TaskCard from "@/components/TaskCard";
-import NoTasks from "@/components/NoTasks";
 import TaskSkeletons from "@/components/TaskSkeletons";
+import NoTasks from "@/components/NoTasks";
 import ErrorTasks from "@/components/ErrorTasks";
+import { useGetImportantTasks } from "@/hooks/useGetImportantTasks";
 import { useEffect } from "react";
-import { useGetCompletedTasks } from "@/hooks/useGetCompletedTasks";
 import { useAuth } from "@/state/useAuth";
 
-const Completed: React.FC = () => {
-  const { data: tasks, isLoading, isError, refetch } = useGetCompletedTasks();
+const Important: React.FC = () => {
+  const { data: tasks, isLoading, isError, refetch } = useGetImportantTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
   useEffect(() => {
     if (isError) {
       clearCredentials();
     }
-  }, []);
+  }, [isError]);
 
   useEffect(() => {
     document.title = "Completed Tasks";
@@ -25,11 +25,11 @@ const Completed: React.FC = () => {
   }
 
   if (isError) {
-    return <ErrorTasks pageReload={() => refetch()} />;
+    return <ErrorTasks pageReload={() => refetch} />;
   }
 
   if (!tasks?.length) {
-    return <NoTasks message="You don't have any completed task at the moment" />;
+    return <NoTasks message="You don't have any important task at the moment" />;
   }
 
   return (
@@ -41,4 +41,4 @@ const Completed: React.FC = () => {
   );
 };
 
-export default Completed;
+export default Important;

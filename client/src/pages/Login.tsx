@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/states/useAuth";
-import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/state/useAuth";
+import { Navigate } from "react-router-dom";
 import { useLogin } from "@/hooks/useLogin";
 import { Loader } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,11 +17,14 @@ const Login: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  console.log(useLocation());
-
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setLoginForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  useEffect(() => {
+    document.title = "Login - Taskify";
+    inputRef.current?.focus();
+  }, []);
 
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -41,11 +44,6 @@ const Login: React.FC = () => {
       },
     });
   };
-
-  useEffect(() => {
-    document.title = "Login - Taskify";
-    inputRef.current?.focus();
-  }, []);
 
   if (user) return <Navigate to={"/dashboard"} replace />;
 

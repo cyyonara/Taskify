@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSignUp } from "@/hooks/useSignUp";
 import { AlertCircleIcon, Loader } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/states/useAuth";
+import { useAuth } from "@/state/useAuth";
 import { Navigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
@@ -14,7 +14,10 @@ import { AxiosError } from "axios";
 
 const signUpSchema = z
   .object({
-    username: z.string().min(2, "Username must have atleast 2 characters"),
+    username: z
+      .string()
+      .min(2, "Username must have atleast 2 characters")
+      .max(20, "Username too long"),
     password: z.string().min(8, "Please create a stronger password"),
     confirmPassword: z.string(),
   })
@@ -35,7 +38,6 @@ const SignUp: React.FC = () => {
     setFocus,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFields>({
-    mode: "onTouched",
     resolver: zodResolver(signUpSchema),
   });
 

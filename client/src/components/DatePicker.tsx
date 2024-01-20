@@ -30,6 +30,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ date, setTaskDate, isSubmitting
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          defaultMonth={date}
           mode="single"
           selected={date}
           onSelect={(dt) => setTaskDate(dt)}

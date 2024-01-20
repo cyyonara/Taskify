@@ -1,7 +1,7 @@
-import LogoutDialog from "@/components/custom/LogoutDialog";
+import LogoutDialog from "@/components/LogoutDialog";
 import { NavLink } from "react-router-dom";
-import { Home, Shell, CheckCircle, Settings, LogOut } from "lucide-react";
-import { useAuth } from "@/states/useAuth";
+import { Shell, CheckCircle, Settings, LogOut, TableProperties } from "lucide-react";
+import { useAuth } from "@/state/useAuth";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useLogout } from "@/hooks/useLogout";
@@ -16,10 +16,10 @@ interface NavigationLink {
 
 export const navLinks: Array<NavigationLink> = [
   {
-    label: "Home",
+    label: "All Tasks",
     path: "/dashboard",
     end: true,
-    icon: <Home size={18} />,
+    icon: <TableProperties size={18} />,
   },
   {
     label: "Completed",
@@ -68,7 +68,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="border-border border hidden rounded-lg md:flex flex-col min-w-[340px] overflow-hidden">
       <div className="flex items-center p-6 gap-x-4">
-        <img src={user?.avatar} className="w-[90px] h-[90px] rounded-full" />
+        <img src={user?.avatar} className="w-[50px] h-[50px] rounded-full" />
         <h3 className="max-w-[220px] text-ellipsis overflow-hidden whitespace-nowrap">
           {user?.username}
         </h3>

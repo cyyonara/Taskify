@@ -19,3 +19,5 @@ export const taskSchema = z
     isImportant: z.boolean(),
   })
   .strict();
+
+export const updatedTaskSchema = taskSchema.omit({ author: true });

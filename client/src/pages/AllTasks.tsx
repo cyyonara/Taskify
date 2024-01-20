@@ -1,35 +1,34 @@
-import TaskCard from "@/components/TaskCard";
+import { useEffect } from "react";
+import { useGetTasks } from "@/hooks/useGetTasks";
 import NoTasks from "@/components/NoTasks";
+import TaskCard from "@/components/TaskCard";
 import TaskSkeletons from "@/components/TaskSkeletons";
 import ErrorTasks from "@/components/ErrorTasks";
-import { useEffect } from "react";
-import { useGetCompletedTasks } from "@/hooks/useGetCompletedTasks";
 import { useAuth } from "@/state/useAuth";
 
-const Completed: React.FC = () => {
-  const { data: tasks, isLoading, isError, refetch } = useGetCompletedTasks();
+const AllTasks: React.FC = () => {
+  const { data: tasks, isLoading, isError, refetch } = useGetTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
   useEffect(() => {
     if (isError) {
       clearCredentials();
     }
-  }, []);
+  }, [isError]);
 
   useEffect(() => {
-    document.title = "Completed Tasks";
+    document.title = "Dashboard";
   }, []);
 
   if (isLoading) {
     return <TaskSkeletons />;
   }
-
   if (isError) {
     return <ErrorTasks pageReload={() => refetch()} />;
   }
 
   if (!tasks?.length) {
-    return <NoTasks message="You don't have any completed task at the moment" />;
+    return <NoTasks message="You don't have any task at the moment" />;
   }
 
   return (
@@ -41,4 +40,4 @@ const Completed: React.FC = () => {
   );
 };
 
-export default Completed;
+export default AllTasks;

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useTheme } from "@/states/useTheme";
+import { useTheme } from "@/state/useTheme";
 
 interface ThemeProviderProps {
   children: React.JSX.Element;

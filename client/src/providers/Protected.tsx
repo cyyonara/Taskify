@@ -1,4 +1,4 @@
-import { useAuth } from "@/states/useAuth";
+import { useAuth } from "@/state/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
 
 const Protected: React.FC = () => {

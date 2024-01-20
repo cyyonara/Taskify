@@ -1,13 +1,20 @@
-import Sidebar from "@/shared/Sidebar";
-import AddTaskDialog from "@/components/custom/AddTaskDialog";
-import LogoutDialog from "@/components/custom/LogoutDialog";
+import Sidebar from "@/components/Sidebar";
+import AddTaskDialog from "@/components/AddTaskDialog";
+import LogoutDialog from "@/components/LogoutDialog";
 import { NavLink, Outlet } from "react-router-dom";
-import { useAddTaskDialog } from "@/states/useAddTaskDialog";
+import { useAddTaskDialog } from "@/state/useAddTaskDialog";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { Plus, LogOut } from "lucide-react";
+import {
+  Plus,
+  TableProperties,
+  Shell,
+  CheckCircle,
+  Settings,
+  LogOut,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/states/useAuth";
+import { useAuth } from "@/state/useAuth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +23,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { navLinks } from "@/shared/Sidebar";
+import { navLinks } from "@/components/Sidebar";
 import { useState } from "react";
 import { useLogout } from "@/hooks/useLogout";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Tooltip,
+} from "@/components/ui/tooltip";
+
+interface PageIcon {
+  pageName: string;
+  icon: React.JSX.Element;
+}
+
+const pageIcons: PageIcon[] = [
+  { pageName: "all tasks", icon: <TableProperties /> },
+  { pageName: "completed", icon: <CheckCircle /> },
+  { pageName: "important", icon: <Shell /> },
+  { pageName: "settings", icon: <Settings /> },
+];
 
 const Dashboard: React.FC = () => {
   const { showAddTaskDialog, openAddTaskDialog } = useAddTaskDialog();
@@ -28,10 +53,17 @@ const Dashboard: React.FC = () => {
   const { user, clearCredentials } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
-
   const paths = location.pathname.split("/");
   const currentPage = paths.length === 2 ? "All Tasks" : paths[paths.length - 1];
   const avatarFallbackLabel = user?.username.substring(0, 2).toUpperCase();
+
+  const getPageIcon = (currentPage: string): React.JSX.Element => {
+    const pageIcon: PageIcon | undefined = pageIcons.find(
+      ({ pageName }) => pageName === currentPage.toLowerCase()
+    );
+
+    return pageIcon ? <>{pageIcon.icon}</> : <></>;
+  };
 
   const handleLogout = (): void => {
     mutate(null, {
@@ -59,14 +91,26 @@ const Dashboard: React.FC = () => {
           />
         )}
         <header className="flex items-center justify-between">
-          <h2 className="capitalize text-2xl md:text-3xl font-bold">{currentPage}</h2>
+          <div className="flex gap-3 items-center">
+            {getPageIcon(currentPage)}
+            <h2 className="capitalize text-2xl md:text-3xl font-bold">{currentPage}</h2>
+          </div>
           <div className="flex items-center gap-x-2">
-            <button
-              onClick={openAddTaskDialog}
-              className="text-primary p-2 rounded-full hover:bg-accent duration-150"
-            >
-              <Plus size={30} />
-            </button>
+            {!location.pathname.includes("settings") && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={openAddTaskDialog}
+                      className="text-primary p-2 rounded-md bg-accent duration-150"
+                    >
+                      <Plus size={20} />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Add task</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             <div className="md:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger>
