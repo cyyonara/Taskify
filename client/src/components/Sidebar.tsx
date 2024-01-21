@@ -1,4 +1,4 @@
-import LogoutDialog from "@/components/LogoutDialog";
+import LogoutModal from "@/components/LogoutModal";
 import { NavLink } from "react-router-dom";
 import { Shell, CheckCircle, Settings, LogOut, TableProperties } from "lucide-react";
 import { useAuth } from "@/state/useAuth";
@@ -42,13 +42,13 @@ export const navLinks: Array<NavigationLink> = [
 ];
 
 const Sidebar: React.FC = () => {
-  const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
   const { user, clearCredentials } = useAuth();
   const { mutate, isPending } = useLogout();
   const { toast } = useToast();
 
-  const closeLogoutDialog = (): void => {
-    setShowLogoutDialog(false);
+  const closeLogoutModal = (): void => {
+    setShowLogoutModal(false);
   };
 
   const handleLogout = (): void => {
@@ -68,7 +68,10 @@ const Sidebar: React.FC = () => {
   return (
     <div className="border-border border hidden rounded-lg md:flex flex-col min-w-[340px] overflow-hidden">
       <div className="flex items-center p-6 gap-x-4">
-        <img src={user?.avatar} className="w-[50px] h-[50px] rounded-full" />
+        <img
+          src={user?.avatar}
+          className="w-[50px] h-[50px] rounded-full object-cover object-center"
+        />
         <h3 className="max-w-[220px] text-ellipsis overflow-hidden whitespace-nowrap">
           {user?.username}
         </h3>
@@ -91,18 +94,15 @@ const Sidebar: React.FC = () => {
       </nav>
       <button
         disabled={isPending}
-        onClick={() => setShowLogoutDialog(true)}
+        onClick={() => setShowLogoutModal(true)}
         className="bg-background gap-x-1 duration-150 hover:bg-secondary hover:text-primary flex items-center text-muted-foreground mt-auto px-4 py-3 dark:hover:text-foreground"
       >
         <LogOut size={16} />
         <span>Logout</span>
       </button>
       <AnimatePresence>
-        {showLogoutDialog && (
-          <LogoutDialog
-            handleLogout={handleLogout}
-            closeLogoutDialog={closeLogoutDialog}
-          />
+        {showLogoutModal && (
+          <LogoutModal handleLogout={handleLogout} closeLogoutModal={closeLogoutModal} />
         )}
       </AnimatePresence>
     </div>

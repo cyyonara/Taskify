@@ -6,6 +6,7 @@ import dotEnv from "dotenv";
 import morgan from "morgan";
 import authRouter from "./routes/auth.router";
 import taskRouter from "./routes/task.router";
+import userRouter from "./routes/user.router";
 import { errorHandler, notFound } from "./middlewares/errorHandler";
 import { connect } from "./config/connect";
 
@@ -24,6 +25,7 @@ app.use(cors({ credentials: true, origin: "*" }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", taskRouter);
+app.use("/api/user", userRouter);
 
 app.use(notFound);
 app.use(errorHandler);

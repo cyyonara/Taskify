@@ -6,7 +6,7 @@ import { useGetImportantTasks } from "@/hooks/useGetImportantTasks";
 import { useEffect } from "react";
 import { useAuth } from "@/state/useAuth";
 
-const Important: React.FC = () => {
+const ImportantTasks: React.FC = () => {
   const { data: tasks, isLoading, isError, refetch } = useGetImportantTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
@@ -41,4 +41,4 @@ const Important: React.FC = () => {
   );
 };
 
-export default Important;
+export default ImportantTasks;

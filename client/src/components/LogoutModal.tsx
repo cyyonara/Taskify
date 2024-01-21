@@ -9,15 +9,12 @@ import Overlay from "./Overlay";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-interface LogoutDialogProps {
-  closeLogoutDialog: () => void;
+interface LogoutModalProps {
+  closeLogoutModal: () => void;
   handleLogout: () => void;
 }
 
-const LogoutDialog: React.FC<LogoutDialogProps> = ({
-  closeLogoutDialog,
-  handleLogout,
-}) => {
+const LogoutModal: React.FC<LogoutModalProps> = ({ closeLogoutModal, handleLogout }) => {
   return (
     <Overlay>
       <motion.div
@@ -34,7 +31,7 @@ const LogoutDialog: React.FC<LogoutDialogProps> = ({
           </CardHeader>
           <CardFooter className="flex items-center gap-x-2">
             <Button onClick={handleLogout}>Logout</Button>
-            <Button variant="secondary" onClick={closeLogoutDialog}>
+            <Button variant="secondary" onClick={closeLogoutModal}>
               Cancel
             </Button>
           </CardFooter>
@@ -44,4 +41,4 @@ const LogoutDialog: React.FC<LogoutDialogProps> = ({
   );
 };
 
-export default LogoutDialog;
+export default LogoutModal;

@@ -10,18 +10,18 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 
-interface DeleteTaskDialogProps {
+interface DeleteTaskModalProps {
   isLoading: boolean;
   taskName: string;
   handleDeleteTask: () => void;
-  closeDialog: () => void;
+  closeModal: () => void;
 }
 
-const DeleteTaskDialog: React.FC<DeleteTaskDialogProps> = ({
+const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
   isLoading,
   handleDeleteTask,
   taskName,
-  closeDialog,
+  closeModal,
 }) => {
   return (
     <Overlay>
@@ -47,7 +47,7 @@ const DeleteTaskDialog: React.FC<DeleteTaskDialogProps> = ({
               {isLoading && <Loader size={20} className="animate-spin" />}
               <span>{isLoading ? "Processing..." : "Delete"}</span>
             </Button>
-            <Button onClick={closeDialog} variant="secondary">
+            <Button onClick={closeModal} variant="secondary">
               Cancel
             </Button>
           </CardFooter>
@@ -57,4 +57,4 @@ const DeleteTaskDialog: React.FC<DeleteTaskDialogProps> = ({
   );
 };
 
-export default DeleteTaskDialog;
+export default DeleteTaskModal;

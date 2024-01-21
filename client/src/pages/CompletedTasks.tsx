@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useGetCompletedTasks } from "@/hooks/useGetCompletedTasks";
 import { useAuth } from "@/state/useAuth";
 
-const Completed: React.FC = () => {
+const CompletedTasks: React.FC = () => {
   const { data: tasks, isLoading, isError, refetch } = useGetCompletedTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
@@ -41,4 +41,4 @@ const Completed: React.FC = () => {
   );
 };
 
-export default Completed;
+export default CompletedTasks;

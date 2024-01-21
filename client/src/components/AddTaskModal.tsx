@@ -1,49 +1,36 @@
-import DatePicker from "@/components/DatePicker";
 import Overlay from "@/components/Overlay";
-import { motion } from "framer-motion";
+import DatePicker from "./DatePicker";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
-  CardContent,
-  CardDescription,
   CardHeader,
-  CardFooter,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { ITask } from "@/lib/taskSchema";
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "./ui/card";
+import { motion } from "framer-motion";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { taskSchema, ITask } from "@/lib/taskSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { taskSchema } from "@/lib/taskSchema";
 import { Loader } from "lucide-react";
-import { useEffect } from "react";
-import { useEditTask } from "@/hooks/useEditTask";
-import { useToast } from "@/components/ui/use-toast";
+import { useAddTask } from "@/hooks/useAddTask";
+import { useToast } from "./ui/use-toast";
 import { useAuth } from "@/state/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
 
-interface EditTaskDialogProps {
-  _id: string;
-  taskName: string;
-  description: string;
-  date: Date;
-  isCompleted: boolean;
-  isImportant: boolean;
-  closeEditTaskDialog: () => void;
+interface AddTaskModalProps {
+  closeModal: () => void;
 }
 
-const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
-  _id,
-  taskName,
-  description,
-  date,
-  isCompleted,
-  isImportant,
-  closeEditTaskDialog,
-}) => {
+const AddTaskModal: React.FC<AddTaskModalProps> = ({ closeModal }) => {
+  const { mutateAsync } = useAddTask();
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -53,33 +40,30 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
     formState: { errors, isSubmitting },
   } = useForm<ITask>({
     defaultValues: {
-      taskName,
-      description,
-      date,
-      isCompleted,
-      isImportant,
+      isCompleted: false,
+      isImportant: false,
+      date: new Date(),
     },
     resolver: zodResolver(taskSchema),
   });
-  const { mutateAsync } = useEditTask();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
   const clearCredentials = useAuth((state) => state.clearCredentials);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setFocus("taskName");
   }, []);
 
-  const handleEditTask: SubmitHandler<ITask> = async (data): Promise<void> => {
+  const handleAddTask: SubmitHandler<ITask> = async (data): Promise<void> => {
     try {
-      await mutateAsync({ ...data, _id });
+      const newTask = await mutateAsync(data);
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      closeEditTaskDialog();
+
       toast({
-        title: "Updated",
-        description: `Changes applied to task "${taskName}"`,
+        title: "Success",
+        description: `Your task "${newTask.taskName}" has been added to your list`,
       });
-    } catch (error) {
+      closeModal();
+    } catch (error: any) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
           clearCredentials();
@@ -100,14 +84,14 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
         animate={{ scale: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        onSubmit={handleSubmit(handleEditTask)}
+        onSubmit={handleSubmit(handleAddTask)}
         className="flex-1 max-w-[450px]"
       >
         <Card>
           <CardHeader>
-            <CardTitle>Edit Task</CardTitle>
+            <CardTitle>Create Task</CardTitle>
             <CardDescription>
-              Task: <span className="text-primary">"{taskName}"</span>
+              Add new task to your <span className="text-primary">Taskify</span> list
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -151,7 +135,6 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
                   <Checkbox
                     id="isCompleted"
                     disabled={isSubmitting}
-                    checked={watch("isCompleted")}
                     onCheckedChange={(checkState: boolean) =>
                       setValue("isCompleted", checkState)
                     }
@@ -164,7 +147,6 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
                   <Checkbox
                     id="isImportant"
                     disabled={isSubmitting}
-                    checked={watch("isImportant")}
                     onCheckedChange={(checkState: boolean) =>
                       setValue("isImportant", checkState)
                     }
@@ -183,9 +165,9 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
               className="flex-1 flex items-center justify-center gap-2"
             >
               {isSubmitting && <Loader size={20} className="animate-spin" />}
-              <span>{isSubmitting ? "Saving changes..." : "Save changes"}</span>
+              <span>{isSubmitting ? "Creating your task..." : "Create"}</span>
             </Button>
-            <Button type="button" variant="secondary" onClick={closeEditTaskDialog}>
+            <Button type="button" variant="secondary" onClick={closeModal}>
               Cancel
             </Button>
           </CardFooter>
@@ -195,4 +177,4 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   );
 };
 
-export default EditTaskDialog;
+export default AddTaskModal;

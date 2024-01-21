@@ -1,8 +1,7 @@
 import Sidebar from "@/components/Sidebar";
-import AddTaskDialog from "@/components/AddTaskDialog";
-import LogoutDialog from "@/components/LogoutDialog";
+import AddTaskDialog from "@/components/AddTaskModal";
+import LogoutDialog from "@/components/LogoutModal";
 import { NavLink, Outlet } from "react-router-dom";
-import { useAddTaskDialog } from "@/state/useAddTaskDialog";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import {
@@ -46,15 +45,15 @@ const pageIcons: PageIcon[] = [
   { pageName: "settings", icon: <Settings /> },
 ];
 
-const Dashboard: React.FC = () => {
-  const { showAddTaskDialog, openAddTaskDialog } = useAddTaskDialog();
-  const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
+const RootLayout: React.FC = () => {
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
+  const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
   const { mutate } = useLogout();
   const { user, clearCredentials } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
   const paths = location.pathname.split("/");
-  const currentPage = paths.length === 2 ? "All Tasks" : paths[paths.length - 1];
+  const currentPage = paths.length === 2 ? "all Tasks" : paths[paths.length - 1];
   const avatarFallbackLabel = user?.username.substring(0, 2).toUpperCase();
 
   const getPageIcon = (currentPage: string): React.JSX.Element => {
@@ -82,12 +81,16 @@ const Dashboard: React.FC = () => {
   return (
     <div className="h-screen flex p-1 sm:p-4 gap-x-4">
       <Sidebar />
-      <AnimatePresence>{showAddTaskDialog && <AddTaskDialog />}</AnimatePresence>
+      <AnimatePresence>
+        {showAddTaskModal && (
+          <AddTaskDialog closeModal={() => setShowAddTaskModal(false)} />
+        )}
+      </AnimatePresence>
       <div className="flex-1 flex-col p-4 sm:p-6 md:border rounded-lg">
-        {showLogoutDialog && (
+        {showLogoutModal && (
           <LogoutDialog
             handleLogout={handleLogout}
-            closeLogoutDialog={() => setShowLogoutDialog(false)}
+            closeLogoutModal={() => setShowLogoutModal(false)}
           />
         )}
         <header className="flex items-center justify-between">
@@ -101,7 +104,7 @@ const Dashboard: React.FC = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
-                      onClick={openAddTaskDialog}
+                      onClick={() => setShowAddTaskModal(true)}
                       className="text-primary p-2 rounded-md bg-accent duration-150"
                     >
                       <Plus size={20} />
@@ -115,7 +118,10 @@ const Dashboard: React.FC = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarImage src={user?.avatar} />
+                    <AvatarImage
+                      src={user?.avatar}
+                      className="object-center object-cover"
+                    />
                     <AvatarFallback>{avatarFallbackLabel}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
@@ -132,7 +138,7 @@ const Dashboard: React.FC = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <button
-                      onClick={() => setShowLogoutDialog(true)}
+                      onClick={() => setShowLogoutModal(true)}
                       className="flex items-center gap-x-2"
                     >
                       <LogOut size={18} />
@@ -150,4 +156,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default RootLayout;

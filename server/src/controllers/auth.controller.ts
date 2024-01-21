@@ -29,13 +29,15 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
       .status(201)
       .json({ username: savedUser.username, avatar: savedUser.avatar });
   } catch (error: any) {
+    let errorMessage;
+
     if (error instanceof ZodError) {
-      const errorMessage = fromZodError(error).toString();
-      res.status(400).json({ message: errorMessage });
+      errorMessage = fromZodError(error).toString();
     } else {
-      res.status(res.statusCode === 200 ? 500 : res.statusCode);
-      throw new Error(error.message);
+      errorMessage = error.message;
     }
+
+    throw new Error(errorMessage);
   }
 });
 

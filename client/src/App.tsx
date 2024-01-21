@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "@/pages/Login";
 import SignUp from "@/pages/Signup";
-import Dashboard from "@/pages/Dashboard";
+import RootLayout from "@/pages/RootLayout";
 import AllTasks from "@/pages/AllTasks";
 import Protected from "@/providers/Protected";
-import Completed from "@/pages/Completed";
-import Important from "@/pages/Important";
+import CompletedTasks from "@/pages/CompletedTasks";
+import ImportantTasks from "@/pages/ImportantTasks";
 import Settings from "@/components/Settings";
 
 const App: React.FC = () => {
@@ -14,10 +14,10 @@ const App: React.FC = () => {
       <Route index element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route element={<Protected />}>
-        <Route path="/dashboard/*" element={<Dashboard />}>
+        <Route path="/dashboard/*" element={<RootLayout />}>
           <Route index element={<AllTasks />} />
-          <Route path="completed" element={<Completed />} />
-          <Route path="important" element={<Important />} />
+          <Route path="completed" element={<CompletedTasks />} />
+          <Route path="important" element={<ImportantTasks />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Route>

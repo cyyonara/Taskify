@@ -21,8 +21,8 @@ import { useDeleteTask } from "@/hooks/useDeleteTask";
 import { useToast } from "@/components/ui/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/state/useAuth";
-import DeleteTaskDialog from "@/components/DeleteTaskDialog";
-import EditTaskDialog from "@/components/EditTaskDialog";
+import DeleteTaskModal from "@/components/DeleteTaskModal";
+import EditTaskModal from "@/components/EditTaskModal";
 
 interface TaskCardProps {
   _id: string;
@@ -41,8 +41,8 @@ const TaskCard: React.FC<TaskCardProps> = ({
   isCompleted,
   isImportant,
 }) => {
-  const [showEditTaskDialog, setShowEditTaskDialog] = useState<boolean>(false);
-  const [showDeleteTaskDialog, setShowDeleteTaskDialog] = useState<boolean>(false);
+  const [showEditTaskModal, setShowEditTaskModal] = useState<boolean>(false);
+  const [showDeleteTaskModal, setShowDeleteTaskModal] = useState<boolean>(false);
   const { mutate, isPending } = useDeleteTask();
   const clearCredentials = useAuth((state) => state.clearCredentials);
   const { toast } = useToast();
@@ -56,7 +56,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
           description: `Task "${taskName}" successfully deleted`,
         });
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
-        setShowDeleteTaskDialog(false);
+        setShowDeleteTaskModal(false);
       },
       onError: (error) => {
         if (error.response?.status === 401) {
@@ -74,22 +74,22 @@ const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <>
       <AnimatePresence>
-        {showEditTaskDialog && (
-          <EditTaskDialog
+        {showEditTaskModal && (
+          <EditTaskModal
             _id={_id}
             taskName={taskName}
             description={description}
             date={date}
             isCompleted={isCompleted}
             isImportant={isImportant}
-            closeEditTaskDialog={() => setShowEditTaskDialog(false)}
+            closeEditTaskModal={() => setShowEditTaskModal(false)}
           />
         )}
-        {showDeleteTaskDialog && (
-          <DeleteTaskDialog
+        {showDeleteTaskModal && (
+          <DeleteTaskModal
             isLoading={isPending}
             taskName={taskName}
-            closeDialog={() => setShowDeleteTaskDialog(false)}
+            closeModal={() => setShowDeleteTaskModal(false)}
             handleDeleteTask={handleDeleteTask}
           />
         )}
@@ -117,7 +117,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  onClick={() => setShowEditTaskDialog(true)}
+                  onClick={() => setShowEditTaskModal(true)}
                   className="duration-150 hover:bg-accent hover:scale-110"
                 >
                   <Edit size={17} />
@@ -130,7 +130,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  onClick={() => setShowDeleteTaskDialog(true)}
+                  onClick={() => setShowDeleteTaskModal(true)}
                   className="duration-150 hover:bg-accent hover:scale-110"
                 >
                   <Trash size={17} />

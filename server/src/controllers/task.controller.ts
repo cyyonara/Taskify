@@ -3,7 +3,7 @@ import { IRequest } from "../types/t.customRequest";
 import { Response } from "express";
 import { taskSchema, updatedTaskSchema } from "../utils/validation";
 import { fromZodError } from "zod-validation-error";
-import { ZodError, z } from "zod";
+import { ZodError } from "zod";
 import { Task as ITask } from "../types/t.task";
 import Task from "../models/task.model";
 
@@ -47,14 +47,16 @@ export const addTask = handler(async (req: IRequest, res: Response): Promise<voi
     const newTask = await task.save();
     res.status(201).json(newTask);
   } catch (error: any) {
+    let errorMessage;
+
     if (error instanceof ZodError) {
-      const errorMessage = fromZodError(error).toString();
       res.status(400);
-      throw new Error(errorMessage);
+      errorMessage = fromZodError(error).toString();
     } else {
-      res.status(500);
-      throw new Error(error.message);
+      errorMessage = error.message;
     }
+
+    throw new Error(errorMessage);
   }
 });
 
@@ -82,16 +84,18 @@ export const updateTask = handler(async (req: IRequest, res: Response): Promise<
     task.isImportant = validatedTask.isImportant;
 
     const updatedTask = await task.save();
-    res.status(201).json(updateTask);
+    res.status(201).json(updatedTask);
   } catch (error: any) {
+    let errorMessage;
+
     if (error instanceof ZodError) {
-      const errorMessage = fromZodError(error).toString();
+      errorMessage = fromZodError(error).toString();
       res.status(400);
-      throw new Error(errorMessage);
     } else {
-      res.status(res.statusCode === 200 ? 500 : res.statusCode);
-      throw new Error(error.message);
+      errorMessage = error.message;
     }
+
+    throw new Error(errorMessage);
   }
 });
 
