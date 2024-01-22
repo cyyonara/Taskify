@@ -1,6 +1,10 @@
 import express, { IRouter } from "express";
 import { verifyUser } from "../middlewares/verifyUser";
-import { changeUsername, changeAvatar } from "../controllers/user.controller";
+import {
+  changeUsername,
+  changeAvatar,
+  changePassword,
+} from "../controllers/user.controller";
 
 const router: IRouter = express.Router();
 
@@ -9,4 +13,8 @@ router.put("/username", verifyUser, changeUsername);
 
 // @PUT - private - /api/user/avatar
 router.put("/avatar", verifyUser, changeAvatar);
+
+// @PUT - private - /api/user/password
+router.put("/password", verifyUser, changePassword);
+
 export default router;

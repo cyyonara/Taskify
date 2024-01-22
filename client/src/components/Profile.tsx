@@ -1,7 +1,7 @@
 import { UserCogIcon } from "lucide-react";
 import UpdateUsername from "@/components/EditUsername";
-import { Button } from "@/components/ui/button";
 import ChangeAvatar from "@/components/ChangeAvatar";
+import PasswordSetup from "./PasswordSetup";
 
 const Profile: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
         <ChangeAvatar />
         <div className="flex flex-col items-center gap-4">
           <UpdateUsername />
-          <Button variant="secondary">Change Password</Button>
+          <PasswordSetup />
         </div>
       </div>
     </section>

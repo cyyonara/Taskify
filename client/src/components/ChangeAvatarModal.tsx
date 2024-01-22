@@ -29,7 +29,7 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
   const { mutate, isPending } = useChangeAvatar();
   const { setCredentials, clearCredentials } = useAuth();
   const avatarRef = useRef<HTMLInputElement | null>(null);
-
+  9;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files && e.target.files[0]) {
       const avatarFile: File = e.target.files[0];
@@ -98,8 +98,9 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
               )}
 
               <Button
-                onClick={() => avatarRef.current?.click()}
                 variant="outline"
+                disabled={isPending}
+                onClick={() => avatarRef.current?.click()}
                 className="max-w-[300px] flex items-center gap-x-2 overflow-hidden text-ellipsis whitespace-nowrap"
               >
                 {avatarFile ? (

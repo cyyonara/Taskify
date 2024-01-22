@@ -6,7 +6,7 @@ import AllTasks from "@/pages/AllTasks";
 import Protected from "@/providers/Protected";
 import CompletedTasks from "@/pages/CompletedTasks";
 import ImportantTasks from "@/pages/ImportantTasks";
-import Settings from "@/components/Settings";
+import Settings from "@/pages/Settings";
 
 const App: React.FC = () => {
   return (

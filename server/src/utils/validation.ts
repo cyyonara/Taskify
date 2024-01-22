@@ -20,4 +20,6 @@ export const taskSchema = z
   })
   .strict();
 
+export const passwordSchema = z.string().min(8).max(30).trim();
+
 export const updatedTaskSchema = taskSchema.omit({ author: true });
