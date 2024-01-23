@@ -94,7 +94,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
           />
         )}
       </AnimatePresence>
-      <Card className="flex w-auto sm:h-[330px] md:w-[400px] flex-col bg-accent  overflow-hidden">
+      <Card className="flex w-auto sm:h-[360px] md:w-[410px] flex-col bg-accent  overflow-hidden">
         <CardHeader>
           <CardTitle className="line-clamp-2 leading-snug">{taskName}</CardTitle>
           <CardDescription className="flex flex-col sm:flex-row gap-y-2 gap-x-4">
@@ -110,7 +110,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm line-clamp-[6]">{description}</p>
+          <p className="text-sm line-clamp-[5]">{description}</p>
         </CardContent>
         <CardFooter className="mt-auto flex gap-x-4">
           <TooltipProvider>
