@@ -29,6 +29,7 @@ exports.signUp = (0, express_async_handler_1.default)(async (req, res) => {
             httpOnly: true,
             maxAge: 60 * (1000 * 60 * 60 * 24),
             sameSite: "none",
+            secure: true,
         })
             .status(201)
             .json({ username: savedUser.username, avatar: savedUser.avatar });
@@ -63,6 +64,7 @@ exports.login = (0, express_async_handler_1.default)(async (req, res) => {
         httpOnly: true,
         maxAge: 60 * (1000 * 60 * 60 * 24),
         sameSite: "none",
+        secure: true,
     })
         .status(201)
         .json({ username: user.username, avatar: user.avatar });

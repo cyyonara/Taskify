@@ -29,6 +29,7 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
         httpOnly: true,
         maxAge: 60 * (1000 * 60 * 60 * 24),
         sameSite: "none",
+        secure: true,
       })
       .status(201)
       .json({ username: savedUser.username, avatar: savedUser.avatar });
@@ -69,6 +70,7 @@ export const login = handler(async (req: Request, res: Response): Promise<void> 
       httpOnly: true,
       maxAge: 60 * (1000 * 60 * 60 * 24),
       sameSite: "none",
+      secure: true,
     })
     .status(201)
     .json({ username: user.username, avatar: user.avatar });
