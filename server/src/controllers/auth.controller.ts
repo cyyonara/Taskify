@@ -25,7 +25,11 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
     const savedUser = await user.save();
 
     res
-      .cookie("taskify_access_token", token, { maxAge: 60 * (1000 * 60 * 60 * 24) })
+      .cookie("taskify_access_token", token, {
+        httpOnly: true,
+        maxAge: 60 * (1000 * 60 * 60 * 24),
+        sameSite: "none",
+      })
       .status(201)
       .json({ username: savedUser.username, avatar: savedUser.avatar });
   } catch (error: any) {
@@ -45,7 +49,6 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
 export const login = handler(async (req: Request, res: Response): Promise<void> => {
   const { username, password }: LoginData = req.body;
 
-  console.log(res.statusCode);
   const user = await User.findOne({ username });
 
   if (!user) {
@@ -62,7 +65,11 @@ export const login = handler(async (req: Request, res: Response): Promise<void> 
 
   const token = user.generateToken();
   res
-    .cookie("taskify_access_token", token, { maxAge: 60 * (1000 * 60 * 60 * 24) })
+    .cookie("taskify_access_token", token, {
+      httpOnly: true,
+      maxAge: 60 * (1000 * 60 * 60 * 24),
+      sameSite: "none",
+    })
     .status(201)
     .json({ username: user.username, avatar: user.avatar });
 });
