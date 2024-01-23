@@ -7,11 +7,11 @@ import { useGetCompletedTasks } from "@/hooks/useGetCompletedTasks";
 import { useAuth } from "@/state/useAuth";
 
 const CompletedTasks: React.FC = () => {
-  const { data: tasks, isLoading, isError, refetch } = useGetCompletedTasks();
+  const { data: tasks, isLoading, isError, refetch, error } = useGetCompletedTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
   useEffect(() => {
-    if (isError) {
+    if (isError && error.response?.status === 401) {
       clearCredentials();
     }
   }, []);

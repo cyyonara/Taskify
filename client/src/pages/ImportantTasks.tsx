@@ -7,11 +7,11 @@ import { useEffect } from "react";
 import { useAuth } from "@/state/useAuth";
 
 const ImportantTasks: React.FC = () => {
-  const { data: tasks, isLoading, isError, refetch } = useGetImportantTasks();
+  const { data: tasks, isLoading, isError, error, refetch } = useGetImportantTasks();
   const clearCredentials = useAuth((state) => state.clearCredentials);
 
   useEffect(() => {
-    if (isError) {
+    if (isError && error?.response?.status === 401) {
       clearCredentials();
     }
   }, [isError]);
