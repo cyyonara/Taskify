@@ -25,7 +25,11 @@ exports.signUp = (0, express_async_handler_1.default)(async (req, res) => {
         const token = user.generateToken();
         const savedUser = await user.save();
         res
-            .cookie("taskify_access_token", token, { maxAge: 60 * (1000 * 60 * 60 * 24) })
+            .cookie("taskify_access_token", token, {
+            httpOnly: true,
+            maxAge: 60 * (1000 * 60 * 60 * 24),
+            sameSite: "none",
+        })
             .status(201)
             .json({ username: savedUser.username, avatar: savedUser.avatar });
     }
@@ -43,7 +47,6 @@ exports.signUp = (0, express_async_handler_1.default)(async (req, res) => {
 // @POST - public - /api/auth/login
 exports.login = (0, express_async_handler_1.default)(async (req, res) => {
     const { username, password } = req.body;
-    console.log(res.statusCode);
     const user = await user_model_1.default.findOne({ username });
     if (!user) {
         res.status(400);
@@ -56,7 +59,11 @@ exports.login = (0, express_async_handler_1.default)(async (req, res) => {
     }
     const token = user.generateToken();
     res
-        .cookie("taskify_access_token", token, { maxAge: 60 * (1000 * 60 * 60 * 24) })
+        .cookie("taskify_access_token", token, {
+        httpOnly: true,
+        maxAge: 60 * (1000 * 60 * 60 * 24),
+        sameSite: "none",
+    })
         .status(201)
         .json({ username: user.username, avatar: user.avatar });
 });
