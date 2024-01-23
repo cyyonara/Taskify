@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors({ credentials: true, origin: "https://taskify-rosy-nine.vercel.app" }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/tasks", taskRouter);
