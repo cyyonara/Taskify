@@ -8,11 +8,11 @@ const ThemeSettings = () => {
 
   return (
     <section>
-      <header className="flex items-center gap-x-2 my-10 border-b pb-3">
+      <header className="flex items-center gap-x-2 mt-10 border-b pb-3">
         <LucideSettings2 />
         <h4 className="text-lg">Theming</h4>
       </header>
-      <div className="flex items-center justify-center mt-16 cursor-pointer gap-x-2">
+      <div className="flex items-center justify-center my-16 cursor-pointer gap-x-2">
         <span className="capitalize">{theme} Mode</span>
         <div
           onClick={toggleTheme}
