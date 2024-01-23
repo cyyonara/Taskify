@@ -58,7 +58,6 @@ export const changeAvatar = handler(
       const { avatar }: { avatar: string } = req.body;
 
       const validatedAvatarUrl = avatarSchema.parse(avatar);
-      console.log(validatedAvatarUrl);
       const updatedUser = await User.findByIdAndUpdate(
         req.user?._id,
         {
