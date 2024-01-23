@@ -4,9 +4,12 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 
 const getImportantTasks = async (): Promise<NewTask[]> => {
-  const response = await axios.get<NewTask[]>("/api/tasks/important", {
-    withCredentials: true,
-  });
+  const response = await axios.get<NewTask[]>(
+    import.meta.env.VITE_API_DOMAIN + "/api/tasks/important",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 

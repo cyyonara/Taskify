@@ -14,7 +14,7 @@ interface ChangePasswordResponse {
 
 const changePassword = async (passwords: IPasswords): Promise<ChangePasswordResponse> => {
   const response = await axios.put<ChangePasswordResponse>(
-    "/api/user/password",
+    import.meta.env.VITE_API_DOMAIN + "/api/user/password",
     passwords,
     {
       withCredentials: true,

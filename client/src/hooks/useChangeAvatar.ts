@@ -9,7 +9,7 @@ const changeAvatar = async (imageFile: File): Promise<UserCredentials> => {
   if (!isSuccess) throw new Error();
 
   const response = await axios.put<UserCredentials>(
-    "/api/user/avatar",
+    import.meta.env.VITE_API_DOMAIN + "/api/user/avatar",
     { avatar: url },
     { withCredentials: true }
   );

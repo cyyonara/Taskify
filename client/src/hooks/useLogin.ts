@@ -5,7 +5,10 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import axios from "axios";
 
 const login = async (formData: LoginData): Promise<UserCredentials> => {
-  const res = await axios.post("/api/auth/login", formData);
+  const res = await axios.post(
+    import.meta.env.VITE_API_DOMAIN + "/api/auth/login",
+    formData
+  );
   return res.data;
 };
 

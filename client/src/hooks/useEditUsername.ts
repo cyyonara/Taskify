@@ -5,7 +5,7 @@ import axios from "axios";
 
 const editUsername = async (username: string): Promise<UserCredentials> => {
   const response = await axios.put(
-    "/api/user/username",
+    import.meta.env.VITE_API_DOMAIN + "/api/user/username",
     { username },
     { withCredentials: true }
   );

@@ -8,9 +8,12 @@ interface DeleteTaskResponse {
 }
 
 const deleteTask = async (id: string): Promise<DeleteTaskResponse> => {
-  const response = await axios.delete<DeleteTaskResponse>(`/api/tasks/${id}`, {
-    withCredentials: true,
-  });
+  const response = await axios.delete<DeleteTaskResponse>(
+    import.meta.env.VITE_API_DOMAIN + `/api/tasks/${id}`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 

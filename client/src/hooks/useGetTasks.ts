@@ -4,7 +4,10 @@ import { IRequestError } from "@/types/t.requestError";
 import axios from "axios";
 
 const getTasks = async (): Promise<NewTask[]> => {
-  const response = await axios.get<NewTask[]>("/api/tasks", { withCredentials: true });
+  const response = await axios.get<NewTask[]>(
+    import.meta.env.VITE_API_DOMAIN + "/api/tasks",
+    { withCredentials: true }
+  );
   return response.data;
 };
 

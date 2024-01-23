@@ -4,9 +4,13 @@ import { ITask, NewTask } from "@/lib/taskSchema";
 import axios from "axios";
 
 const addTask = async (newTask: ITask): Promise<NewTask> => {
-  const response = await axios.post<NewTask>("/api/tasks", newTask, {
-    withCredentials: true,
-  });
+  const response = await axios.post<NewTask>(
+    import.meta.env.VITE_API_DOMAIN + "/api/tasks",
+    newTask,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 

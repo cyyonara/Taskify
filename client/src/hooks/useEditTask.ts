@@ -9,7 +9,7 @@ interface EditedTask extends ITask {
 
 const editTask = async ({ _id, ...rest }: EditedTask): Promise<UpdatedTask> => {
   const response = await axios.put<UpdatedTask>(
-    `/api/tasks/${_id}`,
+    import.meta.env.VITE_API_DOMAIN + `/api/tasks/${_id}`,
     { ...rest },
     {
       withCredentials: true,

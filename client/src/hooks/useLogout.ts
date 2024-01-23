@@ -4,7 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const logout = async (): Promise<void> => {
-  return await axios.delete("/api/auth/logout", { withCredentials: true });
+  return await axios.delete(import.meta.env.VITE_API_DOMAIN + "/api/auth/logout", {
+    withCredentials: true,
+  });
 };
 
 export const useLogout = (): UseMutationResult<void, IRequestError, null> => {
