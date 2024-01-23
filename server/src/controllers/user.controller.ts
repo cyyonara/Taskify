@@ -106,7 +106,7 @@ export const changePassword = handler(
         throw new Error("Incorrect password");
       }
 
-      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+      const hashedPassword = bcrypt.hashSync(validatedPassword, 10);
 
       await User.findByIdAndUpdate(req.user?._id, { password: hashedPassword });
       res.status(201).json({ success: true, message: "Password changed" });

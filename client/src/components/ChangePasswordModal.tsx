@@ -72,6 +72,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ closeModal })
       closeModal();
     } catch (error) {
       const err = error as IRequestError;
+
       switch (err.response?.status) {
         case 401:
           clearCredentials();

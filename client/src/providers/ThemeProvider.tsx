@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTheme } from "@/state/useTheme";
 
 interface ThemeProviderProps {
-  children: React.JSX.Element;
+  children: React.ReactNode;
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({
@@ -13,11 +13,10 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
-      //document.documentElement.classList.remove("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [theme]);
 
   return <>{children}</>;
 };

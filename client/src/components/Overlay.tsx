@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 
 interface OverlayProps {
-  children: React.JSX.Element;
+  children: React.ReactNode;
 }
 
 const Overlay: React.FC<OverlayProps> = ({ children }) => {

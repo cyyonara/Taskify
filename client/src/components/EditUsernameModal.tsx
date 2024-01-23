@@ -18,7 +18,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useEditUsername } from "@/hooks/useEditUsername";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/state/useAuth";
-
 import { useEffect } from "react";
 
 interface EditUsernameModalProps {

@@ -56,7 +56,7 @@ const RootLayout: React.FC = () => {
   const currentPage = paths.length === 2 ? "all Tasks" : paths[paths.length - 1];
   const avatarFallbackLabel = user?.username.substring(0, 2).toUpperCase();
 
-  const getPageIcon = (currentPage: string): React.JSX.Element => {
+  const getPageIcon = (currentPage: string): React.ReactNode => {
     const pageIcon: PageIcon | undefined = pageIcons.find(
       ({ pageName }) => pageName === currentPage.toLowerCase()
     );
