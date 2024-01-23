@@ -7,10 +7,7 @@ import axios from "axios";
 const signUp = async (formData: SignUpData): Promise<UserCredentials> => {
   const response = await axios.post<UserCredentials>(
     import.meta.env.VITE_API_DOMAIN + "/api/auth/sign-up",
-    formData,
-    {
-      withCredentials: true,
-    }
+    formData
   );
   return response.data;
 };
