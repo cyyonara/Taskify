@@ -25,7 +25,7 @@ app.use(
   cors({
     credentials: true,
     origin: ["https://taskify-rosy-nine.vercel.app"],
-    allowedHeaders: "*",
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
