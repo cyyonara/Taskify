@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ["https://taskify-rosy-nine.vercel.app"],
+    origin: ["http://localhost:5173"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );

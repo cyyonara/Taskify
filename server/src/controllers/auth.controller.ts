@@ -1,11 +1,11 @@
-import handler from "express-async-handler";
-import User from "../models/user.model";
-import bcrypt from "bcrypt";
-import { Request, Response } from "express";
-import { ZodError } from "zod";
-import { LoginData } from "../types/t.auth";
-import { fromZodError } from "zod-validation-error";
-import { signUpSchema } from "../utils/validation";
+import handler from 'express-async-handler';
+import User from '../models/user.model';
+import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
+import { ZodError } from 'zod';
+import { LoginData } from '../types/t.auth';
+import { fromZodError } from 'zod-validation-error';
+import { signUpSchema } from '../utils/validation';
 
 // @POST - public - /api/auth/sign-up
 export const signUp = handler(async (req: Request, res: Response): Promise<void> => {
@@ -16,7 +16,7 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
 
     if (isUsernameExist) {
       res.status(400);
-      throw new Error("Username already exist");
+      throw new Error('Username already exist');
     }
 
     const hashedPwd = bcrypt.hashSync(user.password, 10);
@@ -25,10 +25,10 @@ export const signUp = handler(async (req: Request, res: Response): Promise<void>
     const savedUser = await user.save();
 
     res
-      .cookie("taskify_access_token", token, {
+      .cookie('taskify_access_token', token, {
         httpOnly: true,
         maxAge: 60 * (1000 * 60 * 60 * 24),
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
       })
       .status(201)
@@ -54,22 +54,22 @@ export const login = handler(async (req: Request, res: Response): Promise<void> 
 
   if (!user) {
     res.status(400);
-    throw new Error("Invalid username or password");
+    throw new Error('Invalid username or password');
   }
 
   const isPasswordMatch: boolean = bcrypt.compareSync(password, user.password);
 
   if (!isPasswordMatch) {
     res.status(400);
-    throw new Error("Invalid username or password");
+    throw new Error('Invalid username or password');
   }
 
   const token = user.generateToken();
   res
-    .cookie("taskify_access_token", token, {
+    .cookie('taskify_access_token', token, {
       httpOnly: true,
       maxAge: 60 * (1000 * 60 * 60 * 24),
-      sameSite: "none",
+      sameSite: 'none',
       secure: true,
     })
     .status(201)
@@ -78,5 +78,5 @@ export const login = handler(async (req: Request, res: Response): Promise<void> 
 
 // @DELETE - public - /api/auth/logout
 export const logout = handler(async (req: Request, res: Response): Promise<void> => {
-  res.clearCookie("taskify_access_token").status(200).json({ success: true });
+  res.clearCookie('taskify_access_token').status(200).json({ success: true });
 });

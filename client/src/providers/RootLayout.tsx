@@ -1,9 +1,9 @@
-import Sidebar from "@/components/Sidebar";
-import AddTaskDialog from "@/components/AddTaskModal";
-import LogoutDialog from "@/components/LogoutModal";
-import { NavLink, Outlet } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import Sidebar from '@/components/Sidebar';
+import AddTaskDialog from '@/components/AddTaskModal';
+import LogoutDialog from '@/components/LogoutModal';
+import { NavLink, Outlet } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import {
   Plus,
   TableProperties,
@@ -11,9 +11,9 @@ import {
   CheckCircle,
   Settings,
   LogOut,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/state/useAuth";
+} from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAuth } from '@/state/useAuth';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,28 +21,28 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { navLinks } from "@/components/Sidebar";
-import { useState } from "react";
-import { useLogout } from "@/hooks/useLogout";
-import { useToast } from "@/components/ui/use-toast";
+} from '@/components/ui/dropdown-menu';
+import { navLinks } from '@/components/Sidebar';
+import { useState } from 'react';
+import { useLogout } from '@/hooks/useLogout';
+import { useToast } from '@/components/ui/use-toast';
 import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
   Tooltip,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
 interface PageIcon {
   pageName: string;
-  icon: React.JSX.Element;
+  icon: React.ReactNode;
 }
 
 const pageIcons: PageIcon[] = [
-  { pageName: "all tasks", icon: <TableProperties /> },
-  { pageName: "completed", icon: <CheckCircle /> },
-  { pageName: "important", icon: <Shell /> },
-  { pageName: "settings", icon: <Settings /> },
+  { pageName: 'all tasks', icon: <TableProperties /> },
+  { pageName: 'completed', icon: <CheckCircle /> },
+  { pageName: 'important', icon: <Shell /> },
+  { pageName: 'settings', icon: <Settings /> },
 ];
 
 const RootLayout: React.FC = () => {
@@ -52,8 +52,8 @@ const RootLayout: React.FC = () => {
   const { user, clearCredentials } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
-  const paths = location.pathname.split("/");
-  const currentPage = paths.length === 2 ? "all Tasks" : paths[paths.length - 1];
+  const paths = location.pathname.split('/');
+  const currentPage = paths.length === 2 ? 'all Tasks' : paths[paths.length - 1];
   const avatarFallbackLabel = user?.username.substring(0, 2).toUpperCase();
 
   const getPageIcon = (currentPage: string): React.ReactNode => {
@@ -71,8 +71,8 @@ const RootLayout: React.FC = () => {
       },
       onError: (err) => {
         toast({
-          title: "Oops!",
-          description: err.response?.data.message || "Internal Server Error",
+          title: 'Oops!',
+          description: err.response?.data.message || 'Internal Server Error',
         });
       },
     });
@@ -99,7 +99,7 @@ const RootLayout: React.FC = () => {
             <h2 className="capitalize text-2xl md:text-3xl font-bold">{currentPage}</h2>
           </div>
           <div className="flex items-center gap-x-2">
-            {!location.pathname.includes("settings") && (
+            {!location.pathname.includes('settings') && (
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
