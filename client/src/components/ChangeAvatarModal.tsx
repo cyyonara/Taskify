@@ -1,5 +1,5 @@
-import Overlay from "@/components/Overlay";
-import { Camera } from "lucide-react";
+import Overlay from '@/components/Overlay';
+import { Camera } from 'lucide-react';
 import {
   Card,
   CardHeader,
@@ -7,24 +7,24 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { getFileExtension } from "@/lib/utils";
-import { useChangeAvatar } from "@/hooks/useChangeAvatar";
-import { useAuth } from "@/state/useAuth";
-import { Loader } from "lucide-react";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useRef, useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+import { getFileExtension } from '@/lib/utils';
+import { useChangeAvatar } from '@/hooks/useChangeAvatar';
+import { useAuth } from '@/state/useAuth';
+import { Loader } from 'lucide-react';
 
 interface ChangeAvatarModalProps {
   closeModal: () => void;
 }
 
-const allowedFileExtensions: string[] = ["jpg", "jpeg", "png", "webp"];
+const allowedFileExtensions: string[] = ['jpg', 'jpeg', 'png', 'webp'];
 
 const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string>("");
+  const [avatarPreview, setAvatarPreview] = useState<string>('');
   const { toast } = useToast();
   const { mutate, isPending } = useChangeAvatar();
   const { setCredentials, clearCredentials } = useAuth();
@@ -42,7 +42,7 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
         setAvatarPreview(urlPreview);
       } else {
         toast({
-          title: "Invalid file",
+          title: 'Invalid file',
           description: "Only files of the type 'image' are allowed.",
         });
       }
@@ -55,8 +55,8 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
         onSuccess: (data) => {
           setCredentials(data);
           toast({
-            title: "Success",
-            description: "Avatar successfully changed.",
+            title: 'Success',
+            description: 'Avatar successfully changed.',
           });
           closeModal();
         },
@@ -65,10 +65,10 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
             clearCredentials();
           } else {
             toast({
-              title: "Something went wrong!",
+              title: 'Something went wrong!',
               description:
                 error.response?.data.message ||
-                "An error occurred while we tried to change your avatar.",
+                'An error occurred while we tried to change your avatar.',
             });
           }
         },
@@ -78,30 +78,30 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
 
   return (
     <Overlay>
-      <div className="flex-1 max-w-[380px]">
+      <div className='flex-1 max-w-[380px]'>
         <Card>
           <CardHeader>
             <CardTitle>Edit Avatar</CardTitle>
             <CardDescription>Choose a file to change your avatar</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center gap-y-4">
-              <input hidden type="file" onChange={handleChange} ref={avatarRef} />
+            <div className='flex flex-col items-center gap-y-4'>
+              <input hidden type='file' onChange={handleChange} ref={avatarRef} />
               {avatarFile ? (
                 <img
                   src={avatarPreview}
                   alt={avatarFile.name}
-                  className="w-[300px] aspect-square rounded-full object-cover object-center"
+                  className='w-[300px] aspect-square rounded-full object-cover object-center'
                 />
               ) : (
-                <div className="w-full aspect-square rounded-full border-2 border-primary"></div>
+                <div className='w-full aspect-square rounded-full border-2 border-primary'></div>
               )}
 
               <Button
-                variant="outline"
+                variant='outline'
                 disabled={isPending}
                 onClick={() => avatarRef.current?.click()}
-                className="max-w-[300px] flex items-center gap-x-2 overflow-hidden text-ellipsis whitespace-nowrap"
+                className='max-w-[300px] flex items-center gap-x-2 overflow-hidden text-ellipsis whitespace-nowrap'
               >
                 {avatarFile ? (
                   avatarFile.name
@@ -114,17 +114,17 @@ const ChangeAvatarModal: React.FC<ChangeAvatarModalProps> = ({ closeModal }) => 
               </Button>
             </div>
           </CardContent>
-          <CardFooter className="flex items-center justify-center gap-2 border-t pt-5">
+          <CardFooter className='flex items-center justify-center gap-2 border-t pt-5'>
             <Button
-              type="submit"
+              type='submit'
               disabled={avatarFile === null || isPending}
               onClick={handleChangeAvatar}
-              className="flex-1 flex items-center justify-center gap-2"
+              className='flex-1 flex items-center justify-center gap-2'
             >
-              {isPending && <Loader size={20} className="animate-spin" />}
-              <span>{isPending ? "Uploading..." : "Upload"}</span>
+              {isPending && <Loader size={20} className='animate-spin' />}
+              <span>{isPending ? 'Uploading...' : 'Upload'}</span>
             </Button>
-            <Button type="button" variant="secondary" onClick={closeModal}>
+            <Button type='button' variant='secondary' onClick={closeModal}>
               Cancel
             </Button>
           </CardFooter>
