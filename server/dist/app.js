@@ -19,18 +19,19 @@ const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const port = process.env.PORT || 4001;
 (0, connect_1.connect)();
+const client = process.env.NODE_ENV === 'dev' ? process.env.CLIENT_DEV : process.env.CLIENT_PROD;
 app.use(express_1.default.json());
-app.use((0, morgan_1.default)("dev"));
+app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: ["http://localhost:5173"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: [client],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use("/api/auth", auth_router_1.default);
-app.use("/api/tasks", task_router_1.default);
-app.use("/api/user", user_router_1.default);
+app.use('/api/auth', auth_router_1.default);
+app.use('/api/tasks', task_router_1.default);
+app.use('/api/user', user_router_1.default);
 app.use(errorHandler_1.notFound);
 app.use(errorHandler_1.errorHandler);
 server.listen(port, () => console.log(`Server is running at port ${port}`));
