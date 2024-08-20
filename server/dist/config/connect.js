@@ -28,7 +28,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const connect = async () => {
     try {
         await mongoose_1.default.connect(process.env.DB_CONN_STRING);
-        console.log("connected to database");
+        console.log('connected to database');
     }
     catch (err) {
         if (err instanceof mongoose_1.MongooseError) {

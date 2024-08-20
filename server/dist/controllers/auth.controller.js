@@ -18,17 +18,17 @@ exports.signUp = (0, express_async_handler_1.default)(async (req, res) => {
         const isUsernameExist = await user_model_1.default.exists({ username: user.username });
         if (isUsernameExist) {
             res.status(400);
-            throw new Error("Username already exist");
+            throw new Error('Username already exist');
         }
         const hashedPwd = bcrypt_1.default.hashSync(user.password, 10);
         user.password = hashedPwd;
         const token = user.generateToken();
         const savedUser = await user.save();
         res
-            .cookie("taskify_access_token", token, {
+            .cookie('taskify_access_token', token, {
             httpOnly: true,
             maxAge: 60 * (1000 * 60 * 60 * 24),
-            sameSite: "none",
+            sameSite: 'none',
             secure: true,
         })
             .status(201)
@@ -51,19 +51,19 @@ exports.login = (0, express_async_handler_1.default)(async (req, res) => {
     const user = await user_model_1.default.findOne({ username });
     if (!user) {
         res.status(400);
-        throw new Error("Invalid username or password");
+        throw new Error('Invalid username or password');
     }
     const isPasswordMatch = bcrypt_1.default.compareSync(password, user.password);
     if (!isPasswordMatch) {
         res.status(400);
-        throw new Error("Invalid username or password");
+        throw new Error('Invalid username or password');
     }
     const token = user.generateToken();
     res
-        .cookie("taskify_access_token", token, {
+        .cookie('taskify_access_token', token, {
         httpOnly: true,
         maxAge: 60 * (1000 * 60 * 60 * 24),
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
     })
         .status(201)
@@ -71,5 +71,5 @@ exports.login = (0, express_async_handler_1.default)(async (req, res) => {
 });
 // @DELETE - public - /api/auth/logout
 exports.logout = (0, express_async_handler_1.default)(async (req, res) => {
-    res.clearCookie("taskify_access_token").status(200).json({ success: true });
+    res.clearCookie('taskify_access_token').status(200).json({ success: true });
 });
